@@ -13,55 +13,71 @@ An AI-powered system for generating personalized B2B outreach for Auth0 solution
 
 ## Setup
 
-1. Clone the repository:
-```bash
-git clone https://github.com/rom
-```
-
-2. Install dependencies:
+1. Install dependencies:
 ```bash
 npm install
 ```
 
-3. Configure environment variables in `.env`
+2. Create a .env file with your API keys:
+```
+OPENAI_API_KEY=your_openai_key_here
+SERPER_API_KEY=your_serper_key_here
+```
 
 ## Usage
 
-Run with company name:
-```bash
-npm start "Company Name"
-```
+There are two ways to use the system:
 
-Run with CSV file:
+### 1. Run Test with Sample AI Companies
 ```bash
-npm start "prospects.csv"
+npm run test-run
 ```
+This will process three predefined AI companies and save results in test-output/
+
+### 2. Process Custom Companies
+Create a companies.txt file with company names (one per line), then:
+```bash
+npm start
+```
+Results will be saved in output/
 
 ## System Components
 
-1. **Company Researcher Agent**
-   - Gathers company information
+1. **Research Agent**
+   - Gathers company information via Serper API
    - Analyzes tech stack
    - Identifies security needs
+   - Provides Israeli market context
 
-2. **Auth0 Solution Specialist Agent**
-   - Matches Auth0 products to company needs
-   - Creates value propositions
-   - Develops implementation strategies
+2. **Auth0 Specialist**
+   - Analyzes company needs
+   - Recommends Auth0 solutions
+   - Creates implementation strategies
+   - Provides ROI projections
 
-3. **Outreach Creator Agent**
-   - Generates personalized messages
-   - Creates compelling subject lines
-   - Crafts effective calls to action
+3. **Outreach Agent**
+   - Generates personalized emails
+   - Creates subject lines
+   - Develops follow-up strategies
+   - Generates Hebrew summaries
 
-## Example Output
-
+## Example Output Structure
 ```json
 {
+  "lead": {
+    "company": "Company Name",
+    "contactPerson": {
+      "name": "Contact Name",
+      "title": "Position",
+      "email": "email@company.com"
+    }
+  },
   "research": {
     "companyInfo": {},
     "techStack": [],
-    "securityNeeds": []
+    "securityNeeds": [],
+    "israeliContext": {},
+    "auth0Updates": {}
   },
   "solution": {
     "recommendedProducts": [],
@@ -71,7 +87,14 @@ npm start "prospects.csv"
   "outreach": {
     "subject": "",
     "body": "",
-    "callToAction": ""
+    "callToAction": "",
+    "followUpStrategy": "",
+    "hebrewSummary": ""
+  },
+  "qualityScore": {
+    "score": 0.0,
+    "checks": {},
+    "suggestions": []
   }
 }
 ```
@@ -79,6 +102,6 @@ npm start "prospects.csv"
 ## Best Practices
 
 1. Review AI-generated content before sending
-2. Regularly update Auth0 product knowledge
-3. Monitor and improve response rates
-4. Maintain compliance with privacy regulations
+2. Keep Auth0 product knowledge updated
+3. Monitor response rates
+4. Maintain privacy compliance
