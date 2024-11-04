@@ -1,10 +1,6 @@
-import { OpenAIService } from '../services/openai.js';
+import { openaiService } from '../services/openai.js';
 
 export class Auth0Specialist {
-  constructor() {
-    this.openai = new OpenAIService();
-  }
-
   async analyzeSolution(companyResearch) {
     const prompt = `Analyze ${companyResearch.companyInfo.name}'s needs and recommend Auth0 solutions.
 
@@ -25,8 +21,7 @@ Provide detailed recommendations including:
 
 Format as detailed JSON with clear sections.`;
 
-    return await this.openai.generateJSON(prompt, {
-      model: "gpt-4o",
+    return await openaiService.generateJSON(prompt, {
       temperature: 0.7
     });
   }

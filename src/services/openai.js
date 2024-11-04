@@ -3,15 +3,15 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const openai = new OpenAI({
+const openaiClient = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
 export class OpenAIService {
   async generateJSON(prompt, options = {}) {
     try {
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o",
+      const completion = await openaiClient.chat.completions.create({
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "system",
@@ -24,15 +24,18 @@ You have deep knowledge of:
 - Compliance requirements (GDPR, SOC2, ISO)
 - Cultural business practices in Israel
 
-Always provide detailed, actionable responses formatted as clean JSON.`
+Always provide responses in valid JSON format only, no additional text.`
           },
-          { role: "user", content: prompt }
+          { 
+            role: "user", 
+            content: prompt + "\n\nRemember to respond with valid JSON only." 
+          }
         ],
-        temperature: options.temperature || 0.7,
-        response_format: { type: "json_object" }
+        temperature: options.temperature || 0.7
       });
 
-      return JSON.parse(completion.choices[0].message.content);
+      const content = completion.choices[0].message.content;
+      return JSON.parse(content);
     } catch (error) {
       console.error('OpenAI Service Error:', error.message);
       throw error;
@@ -40,4 +43,4 @@ Always provide detailed, actionable responses formatted as clean JSON.`
   }
 }
 
-export { openai };
+export const openaiService = new OpenAIService();

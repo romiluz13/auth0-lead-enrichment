@@ -1,13 +1,10 @@
 import { OutreachCrew } from './crews/OutreachCrew.js';
 import fs from 'fs/promises';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 async function testRun() {
   try {
     console.log('🚀 Starting test run with AI companies...\n');
-    
+
     const testLeads = [
       {
         company: "AI21 Labs",
@@ -58,52 +55,49 @@ async function testRun() {
         description: "Tabnine provides AI-powered code completion and assistance"
       }
     ];
-    
+
     console.log('📋 Target Companies:');
     testLeads.forEach(lead => {
       console.log(`   • ${lead.company} (${lead.contactPerson.name} - ${lead.contactPerson.title})`);
     });
     console.log('\n');
-    
+
     // Create and execute outreach crew
     const crew = new OutreachCrew(testLeads);
     console.log('Created OutreachCrew instance');
-    
+
     const results = await crew.execute();
     console.log('Executed crew tasks');
-    
-    // Save results in test-output directory
+
+    // Create output directory
     await fs.mkdir('test-output', { recursive: true });
-    
+
     console.log('\n📊 Results Summary:');
     for (const result of results) {
+      const filename = `test-output/${result.lead.company.toLowerCase().replace(/\s+/g, '-')}-${new Date().toISOString().split('T')[0]}.json`;
       if (!result.error) {
-        const filename = `test-output/${result.lead.company.toLowerCase().replace(/\s+/g, '-')}-${new Date().toISOString().split('T')[0]}.json`;
         await fs.writeFile(filename, JSON.stringify({
           lead: result.lead,
           research: result.research,
           solution: result.solution,
-          outreach: result.outreach,
-          qualityScore: result.qualityScore
+          outreach: result.outreach
         }, null, 2));
         console.log(`✅ ${result.lead.company} - Success`);
       } else {
         console.error(`❌ ${result.lead.company} - Failed: ${result.error}`);
       }
     }
-    
+
     console.log('\n✨ Test run completed!');
     console.log('📁 Results saved in test-output directory');
-    
+
   } catch (error) {
-    console.error('❌ Error in test run:', error);
-    console.error(error.stack);
+    console.error('❌ Error during test run:', error);
   }
 }
 
-// Execute test run
+// Run the test
 console.log('Starting test script...');
 testRun().catch(error => {
   console.error('Fatal error:', error);
-  process.exit(1);
-}); 
+});

@@ -1,5 +1,5 @@
 import { ResearchAgent } from '../agents/ResearchAgent.js';
-import { Auth0Specialist } from '../agents/Auth0Specialist.js';
+import { Auth0Specialist } from '../agents/auth0Specialist.js';
 import { OutreachAgent } from '../agents/OutreachAgent.js';
 import { QualityCheckService } from '../services/qualityCheck.js';
 
@@ -10,7 +10,7 @@ export class OutreachCrew {
     this.specialist = new Auth0Specialist();
     this.outreachAgent = new OutreachAgent();
     this.qualityCheck = new QualityCheckService();
-    
+
     console.log('OutreachCrew initialized with:', leads.length, 'leads');
   }
 
@@ -20,7 +20,7 @@ export class OutreachCrew {
 
     for (const lead of this.leads) {
       console.log(`\nProcessing lead: ${lead.company}`);
-      
+
       try {
         // Phase 1: Research
         console.log('Starting research phase...');
@@ -37,25 +37,14 @@ export class OutreachCrew {
         const outreach = await this.outreachAgent.createCampaign(research, solution);
         console.log('Outreach campaign created');
 
-        // Phase 4: Quality Check
-        console.log('Performing quality check...');
-        const qualityScore = await this.qualityCheck.checkPersonalization(outreach, research);
-        console.log('Quality check completed');
-
-        // Store results
         results.push({
           lead,
           research,
           solution,
-          outreach,
-          qualityScore
+          outreach
         });
-
-        // Add delay between processing leads
-        await new Promise(resolve => setTimeout(resolve, 5000));
-
       } catch (error) {
-        console.error(`Error processing ${lead.company}:`, error);
+        console.error(`Error processing lead ${lead.company}:`, error);
         results.push({
           lead,
           error: error.message
@@ -65,4 +54,4 @@ export class OutreachCrew {
 
     return results;
   }
-} 
+}

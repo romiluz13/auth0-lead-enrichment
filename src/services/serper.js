@@ -36,4 +36,4 @@ export class SerperService {
       return null;
     }
   }
-} 
+}
