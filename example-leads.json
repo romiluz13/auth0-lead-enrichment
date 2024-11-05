@@ -1,0 +1,44 @@
+{
+  "leads": [
+    {
+      "company": "AI Innovation Labs",
+      "website": "ailabs.ai",
+      "description": "AI Innovation Labs specializes in developing enterprise AI solutions with a focus on computer vision and natural language processing. Their platform helps companies deploy and manage AI models at scale.",
+      "industry": "Artificial Intelligence",
+      "size": "51-200 employees",
+      "market": "B2B/Enterprise",
+      "type": "AI/ML Platform",
+      "funding": "Series A",
+      "location": {
+        "hq": "Tel Aviv, Israel",
+        "offices": ["Tel Aviv", "London"]
+      },
+      "contactPerson": {
+        "name": "Sarah Cohen",
+        "title": "Chief Technology Officer",
+        "email": "sarah@ailabs.ai",
+        "department": "Technology"
+      }
+    },
+    {
+      "company": "SecureFinTech",
+      "website": "securefintech.com",
+      "description": "SecureFinTech provides next-generation payment processing and fraud detection solutions using AI and blockchain technology. Their platform serves major financial institutions across Europe and the Middle East.",
+      "industry": "FinTech",
+      "size": "201-500 employees",
+      "market": "Enterprise",
+      "type": "Financial Technology",
+      "funding": "Series B",
+      "location": {
+        "hq": "Tel Aviv, Israel",
+        "offices": ["Tel Aviv", "New York", "London"]
+      },
+      "contactPerson": {
+        "name": "David Levy",
+        "title": "Chief Information Security Officer",
+        "email": "david@securefintech.com",
+        "department": "Security"
+      }
+    }
+  ]
+}

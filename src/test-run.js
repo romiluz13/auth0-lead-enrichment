@@ -1,103 +1,55 @@
 import { OutreachCrew } from './crews/OutreachCrew.js';
-import fs from 'fs/promises';
+import testLeads from './data/test-leads.json' assert { type: "json" };
 
-async function testRun() {
+async function runTest() {
+  console.log('\n🚀 Starting Auth0 Sales Agent Test Run\n');
+  
   try {
-    console.log('🚀 Starting test run with AI companies...\n');
+    const crew = new OutreachCrew();
+    
+    console.log('Test Lead:', testLeads.leads[0].company);
+    console.log('Industry:', testLeads.leads[0].industry);
+    console.log('Contact:', testLeads.leads[0].contactPerson.name);
+    console.log('Role:', testLeads.leads[0].contactPerson.title);
+    console.log('\n---\n');
 
-    const testLeads = [
-      {
-        company: "AI21 Labs",
-        contactPerson: {
-          name: "Ori Goshen",
-          title: "CEO & Co-Founder",
-          email: "contact@ai21.com"
-        },
-        type: "AI/ML",
-        market: "Israel",
-        industry: "Artificial Intelligence",
-        size: "Growth",
-        website: "ai21.com",
-        techStack: ["Python", "React", "AWS"],
-        priority: "High",
-        description: "AI21 Labs develops advanced language models and AI writing tools"
-      },
-      {
-        company: "D-ID",
-        contactPerson: {
-          name: "Gil Perry",
-          title: "CEO & Co-Founder",
-          email: "contact@d-id.com"
-        },
-        type: "AI/ML",
-        market: "Israel",
-        industry: "Computer Vision/AI",
-        size: "Growth",
-        website: "d-id.com",
-        techStack: ["Python", "TensorFlow", "AWS"],
-        priority: "High",
-        description: "D-ID creates AI-powered creative tools for video and images"
-      },
-      {
-        company: "Tabnine",
-        contactPerson: {
-          name: "Dror Weiss",
-          title: "CEO",
-          email: "contact@tabnine.com"
-        },
-        type: "AI/ML",
-        market: "Israel",
-        industry: "Developer Tools",
-        size: "Growth",
-        website: "tabnine.com",
-        techStack: ["Python", "TypeScript", "Cloud"],
-        priority: "High",
-        description: "Tabnine provides AI-powered code completion and assistance"
+    // Process the test lead
+    const result = await crew.processLeads(testLeads);
+    
+    // Display the results
+    console.log('\n📊 Results Summary\n');
+    console.log('Execution Report:', result.report);
+
+    const successfulOutreach = result.results.find(r => r.metadata?.status === 'success');
+    if (successfulOutreach) {
+      console.log('\n📧 Generated Outreach\n');
+      console.log('Subject:', successfulOutreach.outreach.subject);
+      console.log('\nBody:', successfulOutreach.outreach.body);
+      console.log('\nCall to Action:', successfulOutreach.outreach.callToAction);
+      
+      console.log('\n📈 Quality Metrics\n');
+      console.log('Personalization Score:', successfulOutreach.qualityScore.score.toFixed(2));
+      console.log('Pain Points:', successfulOutreach.outreach.metadata.targetedPainPoints);
+      console.log('Value Propositions:', successfulOutreach.outreach.metadata.valueProposition);
+      
+      if (successfulOutreach.qualityScore.suggestions.length > 0) {
+        console.log('\n💡 Improvement Suggestions\n');
+        successfulOutreach.qualityScore.suggestions.forEach((suggestion, i) => {
+          console.log(`${i + 1}. ${suggestion}`);
+        });
       }
-    ];
 
-    console.log('📋 Target Companies:');
-    testLeads.forEach(lead => {
-      console.log(`   • ${lead.company} (${lead.contactPerson.name} - ${lead.contactPerson.title})`);
-    });
-    console.log('\n');
-
-    // Create and execute outreach crew
-    const crew = new OutreachCrew(testLeads);
-    console.log('Created OutreachCrew instance');
-
-    const results = await crew.execute();
-    console.log('Executed crew tasks');
-
-    // Create output directory
-    await fs.mkdir('test-output', { recursive: true });
-
-    console.log('\n📊 Results Summary:');
-    for (const result of results) {
-      const filename = `test-output/${result.lead.company.toLowerCase().replace(/\s+/g, '-')}-${new Date().toISOString().split('T')[0]}.json`;
-      if (!result.error) {
-        await fs.writeFile(filename, JSON.stringify({
-          lead: result.lead,
-          research: result.research,
-          solution: result.solution,
-          outreach: result.outreach
-        }, null, 2));
-        console.log(`✅ ${result.lead.company} - Success`);
-      } else {
-        console.error(`❌ ${result.lead.company} - Failed: ${result.error}`);
-      }
+      console.log('\n📋 Follow-up Strategy\n');
+      console.log(successfulOutreach.outreach.followUpStrategy);
     }
 
-    console.log('\n✨ Test run completed!');
-    console.log('📁 Results saved in test-output directory');
+    console.log('\n✅ Test Run Complete\n');
 
   } catch (error) {
-    console.error('❌ Error during test run:', error);
+    console.error('\n❌ Test Run Error:', error);
+    process.exit(1);
   }
 }
 
 // Run the test
-console.log('Starting test script...');
-testRun().catch(error => {
-  console.error('Fatal error:', error);
-});
+runTest().catch(console.error);

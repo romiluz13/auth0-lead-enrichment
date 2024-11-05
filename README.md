@@ -1,107 +1,123 @@
-# Auth0 Sales Outreach System
+# Auth0 Sales Outreach Generator
 
-An AI-powered system for generating personalized B2B outreach for Auth0 solutions, focusing on Israeli tech companies.
+An AI-powered system for generating personalized, consultative Auth0 outreach messages based on LinkedIn Sales Navigator data.
 
 ## Features
 
-- AI-powered research and analysis
-- Personalized outreach generation
-- Israeli market context awareness
-- Multi-agent architecture
-- Quality checking system
-- Hebrew summary generation
+- Deep understanding of Auth0's capabilities and value propositions
+- Industry-specific personalization (AI/ML, FinTech, SaaS)
+- Role-based messaging (Technical, Security, Business)
+- Consultative, helpful tone (not salesy)
+- Quality scoring and validation
+- Easy copy/paste output format
 
-## Setup
+## Getting Started
 
-1. Install dependencies:
+1. Export your leads from LinkedIn Sales Navigator
+2. Convert the data to JSON format (see example-leads.json)
+3. Run the generator:
 ```bash
-npm install
+node src/index.js
 ```
+4. Find your generated messages in the `outreach-messages` directory
 
-2. Create a .env file with your API keys:
-```
-OPENAI_API_KEY=your_openai_key_here
-SERPER_API_KEY=your_serper_key_here
-```
+## Data Format
 
-## Usage
-
-There are two ways to use the system:
-
-### 1. Run Test with Sample AI Companies
-```bash
-npm run test-run
-```
-This will process three predefined AI companies and save results in test-output/
-
-### 2. Process Custom Companies
-Create a companies.txt file with company names (one per line), then:
-```bash
-npm start
-```
-Results will be saved in output/
-
-## System Components
-
-1. **Research Agent**
-   - Gathers company information via Serper API
-   - Analyzes tech stack
-   - Identifies security needs
-   - Provides Israeli market context
-
-2. **Auth0 Specialist**
-   - Analyzes company needs
-   - Recommends Auth0 solutions
-   - Creates implementation strategies
-   - Provides ROI projections
-
-3. **Outreach Agent**
-   - Generates personalized emails
-   - Creates subject lines
-   - Develops follow-up strategies
-   - Generates Hebrew summaries
-
-## Example Output Structure
+Your leads should be in JSON format like this:
 ```json
 {
-  "lead": {
-    "company": "Company Name",
-    "contactPerson": {
-      "name": "Contact Name",
-      "title": "Position",
-      "email": "email@company.com"
+  "leads": [
+    {
+      "company": "Company Name",
+      "website": "company.com",
+      "description": "Company description...",
+      "industry": "Industry type",
+      "size": "51-200 employees",
+      "market": "B2B/Enterprise",
+      "type": "Company type",
+      "funding": "Series A/B/etc",
+      "location": {
+        "hq": "Location",
+        "offices": ["Office 1", "Office 2"]
+      },
+      "contactPerson": {
+        "name": "Contact Name",
+        "title": "Job Title",
+        "email": "email@company.com",
+        "department": "Department"
+      }
     }
-  },
-  "research": {
-    "companyInfo": {},
-    "techStack": [],
-    "securityNeeds": [],
-    "israeliContext": {},
-    "auth0Updates": {}
-  },
-  "solution": {
-    "recommendedProducts": [],
-    "valueProposition": "",
-    "implementationStrategy": ""
-  },
-  "outreach": {
-    "subject": "",
-    "body": "",
-    "callToAction": "",
-    "followUpStrategy": "",
-    "hebrewSummary": ""
-  },
-  "qualityScore": {
-    "score": 0.0,
-    "checks": {},
-    "suggestions": []
-  }
+  ]
 }
 ```
 
+See `example-leads.json` for a complete example.
+
+## Output
+
+For each lead, the system generates:
+- Personalized subject line
+- Consultative message body
+- Follow-up strategy
+- Quality metrics
+
+Messages are saved as individual text files for easy copy/paste, with a summary report in `_summary.txt`.
+
+## Message Style
+
+The system generates consultative, helpful messages that:
+- Open with relevant industry insights
+- Share valuable perspectives
+- Address specific challenges
+- End with thought-provoking insights
+- Avoid explicit sales language or CTAs
+
+## Quality Scoring
+
+Each message is scored based on:
+- Industry relevance
+- Role-specific personalization
+- Technical accuracy
+- Value proposition clarity
+- Overall personalization
+
+Messages scoring below 0.7 are automatically improved.
+
 ## Best Practices
 
-1. Review AI-generated content before sending
-2. Keep Auth0 product knowledge updated
-3. Monitor response rates
-4. Maintain privacy compliance
+1. Provide detailed company descriptions
+2. Include accurate job titles
+3. Specify industry and company type
+4. Include funding/growth information if available
+5. List all office locations
+
+## Example Output
+
+```
+Subject: AI Security Architecture Insights for Your ML Platform
+
+Hi Sarah,
+
+Your recent work at AI Innovation Labs in scaling enterprise AI deployment caught my attention. Many ML platforms are facing interesting challenges around model access control and data governance, particularly with the new AI regulations being discussed in the EU.
+
+From our experience working with AI companies, we've found that building security into the ML pipeline from the ground up significantly reduces deployment friction. For instance, one AI platform reduced their security review cycles by 80% by implementing automated identity controls across their model deployment process.
+
+The intersection of AI and identity is evolving rapidly, especially around fine-grained API access control and automated compliance monitoring. I've been researching some novel approaches to securing ML model endpoints that might be relevant to your architecture.
+
+I'd be interested in your thoughts on how you're approaching these challenges, particularly around automated security controls for AI systems.
+
+Best regards,
+[Your name]
+```
+
+## Support
+
+For questions or issues:
+1. Check example-leads.json for data format
+2. Ensure complete company and contact information
+3. Review the generated _summary.txt for quality scores
+4. Check individual message files for specific outputs
+
+## License
+
+MIT License

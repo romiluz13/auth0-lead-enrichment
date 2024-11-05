@@ -1,0 +1,23 @@
+
+Auth0 Outreach Summary
+=====================
+
+Processing Results:
+- Total Leads: 3
+- Successfully Processed: 3
+- High Quality Messages (>0.8): 3
+- Average Quality Score: 0.91
+
+Quality Metrics:
+- High Quality: 3
+- Medium Quality: 0
+- Low Quality: 0
+
+Processing Time:
+- Total Time: 64.39s
+- Average Per Lead: 21.46s
+
+Individual Results:
+- AI21 Labs: success (Quality: 0.90)
+- Datagen: success (Quality: 0.92)
+- Forter: success (Quality: 0.90)

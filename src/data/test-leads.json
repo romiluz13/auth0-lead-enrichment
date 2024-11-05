@@ -1,1 +1,24 @@
- 
+{
+  "leads": [
+    {
+      "company": "D-ID",
+      "website": "d-id.com",
+      "description": "D-ID is a pioneering AI company specializing in generative AI and deep learning technologies for creating and manipulating photorealistic digital humans. Their Creative Reality™ technology is used by leading media, entertainment, and enterprise companies worldwide.",
+      "industry": "Artificial Intelligence",
+      "size": "51-200 employees",
+      "market": "B2B/Enterprise",
+      "type": "AI/Computer Vision",
+      "funding": "Series B ($50M+)",
+      "location": {
+        "hq": "Tel Aviv, Israel",
+        "offices": ["Tel Aviv", "New York"]
+      },
+      "contactPerson": {
+        "name": "Gil Perry",
+        "title": "Chief Executive Officer",
+        "email": "gil@d-id.com",
+        "department": "Executive"
+      }
+    }
+  ]
+}
